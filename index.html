@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💖 A Surprise for Noor 💖</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Comic Sans MS", cursive;
+      }
+      body {
+        background: linear-gradient(135deg, #ffe0ec, #ffb6d5, #ff9ec7);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        padding: 20px;
+      }
+      .page {
+        display: none;
+        background: white;
+        border-radius: 30px;
+        padding: 40px 30px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(255, 100, 150, 0.4);
+        animation: fadeIn 0.8s ease;
+      }
+      .page.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      h1 {
+        color: #e91e63;
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+      h2 {
+        color: #ff4081;
+        font-size: 22px;
+        margin-bottom: 15px;
+      }
+      p {
+        color: #555;
+        font-size: 16px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .cat-img {
+        font-size: 80px;
+        margin: 20px 0;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      .passcode-display {
+        font-size: 32px;
+        letter-spacing: 15px;
+        color: #e91e63;
+        margin: 20px 0;
+        min-height: 50px;
+      }
+
+      .keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 250px;
+        margin: 20px auto;
+      }
+      .key {
+        background: linear-gradient(135deg, #ff80ab, #ff4081);
+        color: white;
+        border: none;
+        padding: 20px;
+        border-radius: 50%;
+        font-size: 22px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s;
+        box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+      }
+      .key:hover {
+        transform: scale(1.1);
+      }
+      .key:active {
+        transform: scale(0.9);
+      }
+
+      .btn {
+        padding: 15px 40px;
+        border: none;
+        border-radius: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 10px;
+        transition: transform 0.3s;
+      }
+      .btn-yes {
+        background: linear-gradient(135deg, #4caf50, #8bc34a);
+        color: white;
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+      }
+      .btn-no {
+        background: linear-gradient(135deg, #f44336, #e91e63);
+        color: white;
+        box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+      }
+      .btn:hover {
+        transform: scale(1.1);
+      }
+
+      .no-btn-runaway {
+        position: relative;
+        transition: all 0.3s;
+      }
+
+      .heart {
+        position: fixed;
+        font-size: 25px;
+        animation: fall linear;
+        pointer-events: none;
+        top: -50px;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(360deg);
+        }
+      }
+
+      .loading-bar {
+        background: #ffe0ec;
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 15px 0;
+        height: 20px;
+      }
+      .loading-fill {
+        background: linear-gradient(90deg, #ff4081, #e91e63);
+        height: 100%;
+        width: 0%;
+        transition: width 0.3s;
+      }
+
+      .final-message {
+        background: linear-gradient(135deg, #fff0f5, #ffe0ec);
+        padding: 25px;
+        border-radius: 20px;
+        margin: 20px 0;
+      }
+      .final-message p {
+        color: #c2185b;
+        font-style: italic;
+        margin: 15px 0;
+        font-size: 15px;
+      }
+
+      .signature {
+        color: #e91e63;
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      .fight-scene {
+        font-size: 60px;
+        animation: shake 0.5s infinite;
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-10px);
+        }
+        75% {
+          transform: translateX(10px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PAGE 1: PASSCODE -->
+    <div class="page active" id="page1">
+      <h1>🐱💕 Welcome 💕🐱</h1>
+      <div class="cat-img">🐱🐱</div>
+      <p>Enter the secret passcode, Noor 💖</p>
+      <div class="passcode-display" id="passDisplay"></div>
+      <div class="keypad">
+        <button class="key" onclick="addDigit('1')">1</button>
+        <button class="key" onclick="addDigit('2')">2</button>
+        <button class="key" onclick="addDigit('3')">3</button>
+        <button class="key" onclick="addDigit('4')">4</button>
+        <button class="key" onclick="addDigit('5')">5</button>
+        <button class="key" onclick="addDigit('6')">6</button>
+        <button class="key" onclick="addDigit('7')">7</button>
+        <button class="key" onclick="addDigit('8')">8</button>
+        <button class="key" onclick="addDigit('9')">9</button>
+        <button
+          class="key"
+          onclick="clearPass()"
+          style="background: linear-gradient(135deg, #999, #666)"
+        >
+          ✖
+        </button>
+        <button class="key" onclick="addDigit('0')">0</button>
+        <button
+          class="key"
+          onclick="checkPass()"
+          style="background: linear-gradient(135deg, #4caf50, #8bc34a)"
+        >
+          ✓
+        </button>
+      </div>
+      <p style="font-size: 12px; color: #999">
+        Hint: Passcode is <b>Your Birth Year (e.g., 2000)</b> 💭
+      </p>
+    </div>
+
+    <!-- PAGE 2: YES / NO -->
+    <div class="page" id="page2">
+      <h1>💌 A Message from Your Afridi 💌</h1>
+      <div class="cat-img">🐱💕🐱</div>
+      <h2>I made something special for you...</h2>
+      <p>Do you want to see it? 🌹</p>
+      <button class="btn btn-yes" onclick="goPage('page4')">YES 💕</button>
+      <button
+        class="btn btn-no"
+        id="noBtn"
+        onclick="goPage('page3')"
+        onmouseover="runAway(this)"
+      >
+        NO 💔
+      </button>
+    </div>
+
+    <!-- PAGE 3: WHY NO -->
+    <div class="page" id="page3">
+      <h1>💔 Why did you choose NO? 💔</h1>
+      <div class="fight-scene">😿 ⚡ 😾</div>
+      <p style="color: #f44336"><b>Our cats are fighting now!</b></p>
+      <p>Afridi worked so hard on this... 🥺</p>
+      <p>Please... don't break their hearts 💔</p>
+      <button class="btn btn-yes" onclick="goPage('page2')">
+        TRY AGAIN 🥺💕
+      </button>
+    </div>
+
+    <!-- PAGE 4: LOADING FILES -->
+    <div class="page" id="page4">
+      <h1>📁 Opening Secret Files... 📁</h1>
+      <div class="cat-img">✨</div>
+      <div id="loadingArea"></div>
+      <p style="color: #e91e63" id="loadingStatus">Please wait, Noor... 💖</p>
+    </div>
+
+    <!-- PAGE 5: EMOTIONAL BUILD-UP -->
+    <div class="page" id="page5">
+      <h1>💖 Noor... 💖</h1>
+      <div class="cat-img">🌹</div>
+      <p
+        id="journeyText"
+        style="font-size: 18px; color: #c2185b; min-height: 100px"
+      ></p>
+      <button
+        class="btn btn-yes"
+        id="continueBtn"
+        onclick="goPage('page6')"
+        style="display: none"
+      >
+        Continue 💕
+      </button>
+    </div>
+
+    <!-- PAGE 6: FINAL EMOTIONAL RESULT -->
+    <div class="page" id="page6">
+      <h1>💖 The Surprise 💖</h1>
+      <div class="cat-img">🐱💕🐱</div>
+      <div class="final-message">
+        <p>Noor... 💌</p>
+        <p>You are not just a name on a screen.</p>
+        <p>You are the reason someone stayed up late.</p>
+        <p>You are the reason 'NO' hurt a little.</p>
+        <p>You are the reason this exists.</p>
+        <br />
+        <p>💖 Every file, every page, every animation 💖</p>
+        <p>Was built with one thought:</p>
+        <p style="font-size: 20px; color: #e91e63">
+          <b>"I want to make you smile"</b>
+        </p>
+        <p>Even from far away... always and forever 💕</p>
+      </div>
+      <div class="signature">~ From Afridi, with all my heart 💖</div>
+      <div style="font-size: 30px; margin-top: 20px">🌹💐🌷🌸🌺</div>
+      <button class="btn btn-yes" onclick="rainHearts()">
+        Shower Me With Love 💖
+      </button>
+    </div>
+
+    <script>
+      let passcode = "";
+      const CORRECT_PASS = "2005"; // Change this to your special date!
+
+      function addDigit(d) {
+        if (passcode.length < 4) {
+          passcode += d;
+          document.getElementById("passDisplay").innerText = "●".repeat(
+            passcode.length,
+          );
+        }
+      }
+
+      function clearPass() {
+        passcode = "";
+        document.getElementById("passDisplay").innerText = "";
+      }
+
+      function checkPass() {
+        if (passcode === CORRECT_PASS) {
+          document.getElementById("passDisplay").innerText =
+            "💖 Access Granted 💖";
+          setTimeout(() => goPage("page2"), 1000);
+        } else {
+          document.getElementById("passDisplay").innerText = "❌ Try Again";
+          passcode = "";
+          setTimeout(
+            () => (document.getElementById("passDisplay").innerText = ""),
+            1500,
+          );
+        }
+      }
+
+      function goPage(id) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        window.scrollTo(0, 0);
+
+        if (id === "page4") startLoading();
+        if (id === "page5") startJourney();
+        if (id === "page6") rainHearts();
+      }
+
+      // Naughty NO button that runs away 😆
+      function runAway(btn) {
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 100 - 50;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+      }
+
+      // Loading files animation
+      function startLoading() {
+        const files = [
+          "Loading Cat Photos... 🐱",
+          "Decrypting Heart Messages... 💌",
+          "Rendering Love Animation... 💕",
+          "Packing Flowers... 🌹",
+          "Writing Secret Note... 📝",
+          "Assembling Surprise Box... 🎁",
+        ];
+        const area = document.getElementById("loadingArea");
+        area.innerHTML = "";
+        let i = 0;
+
+        function loadNext() {
+          if (i >= files.length) {
+            document.getElementById("loadingStatus").innerText = "All ready 💖";
+            setTimeout(() => goPage("page5"), 800);
+            return;
+          }
+          const div = document.createElement("div");
+          div.innerHTML = `<p style="text-align:left;color:#e91e63;margin:5px 0">${files[i]}</p>
+                     <div class="loading-bar"><div class="loading-fill" id="bar${i}"></div></div>`;
+          area.appendChild(div);
+
+          let width = 0;
+          const bar = document.getElementById(`bar${i}`);
+          const interval = setInterval(() => {
+            width += 10;
+            bar.style.width = width + "%";
+            if (width >= 100) {
+              clearInterval(interval);
+              i++;
+              setTimeout(loadNext, 200);
+            }
+          }, 60);
+        }
+        loadNext();
+      }
+
+      // Emotional journey text
+      function startJourney() {
+        const messages = [
+          "Every page you opened...",
+          "Every second you waited...",
+          "Every heart that beat...",
+          "Was just for YOU 💖",
+        ];
+        const el = document.getElementById("journeyText");
+        el.innerText = "";
+        let i = 0;
+
+        function nextMsg() {
+          if (i >= messages.length) {
+            document.getElementById("continueBtn").style.display =
+              "inline-block";
+            return;
+          }
+          el.innerText = messages[i];
+          i++;
+          setTimeout(nextMsg, 1500);
+        }
+        nextMsg();
+      }
+
+      // Rain of hearts
+      function rainHearts() {
+        const hearts = ["💖", "💕", "💗", "💘", "💝", "❤️", "🌹", "🐱"];
+        for (let i = 0; i < 40; i++) {
+          setTimeout(() => {
+            const h = document.createElement("div");
+            h.className = "heart";
+            h.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.animationDuration = Math.random() * 3 + 3 + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+          }, i * 100);
+        }
+      }
+    </script>
+  </body>
+</html>
